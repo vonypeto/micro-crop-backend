@@ -73,10 +73,9 @@ const dataSensors = mongoose.model("data_sensors", sensorsSchema);
 app.post("/send", async (req, res) => {
   const sensorDataId = new mongoose.Types.ObjectId();
   const dataCollectionDataId = new mongoose.Types.ObjectId();
-
+  console.log(req.body);
   try {
     const prevData = await dataCollection.find();
-    console.log(prevData);
     if (prevData.length) {
       const sensorData = new dataSensors({
         _id: sensorDataId,
@@ -128,8 +127,9 @@ app.get("/get_data", async (_, res) => {
         model: "data_sensors",
       })
       .then((response) => {
-        console.log(t);
+        console.log(response);
         var t = JSON.stringify(response[0]);
+
         res.json(t);
       });
   } catch (error) {
