@@ -9,6 +9,10 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.json());
 
 mongoose.set("strictQuery", false);
 mongoose
@@ -73,7 +77,7 @@ const dataSensors = mongoose.model("data_sensors", sensorsSchema);
 app.post("/send", async (req, res) => {
   const sensorDataId = new mongoose.Types.ObjectId();
   const dataCollectionDataId = new mongoose.Types.ObjectId();
-  console.log(req.body);
+
   try {
     const prevData = await dataCollection.find();
     if (prevData.length) {
