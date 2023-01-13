@@ -128,8 +128,9 @@ app.get("/get_data", async (_, res) => {
         model: "data_sensors",
       })
       .then((response) => {
-        console.log(response);
-        res.json(response);
+        console.log(t);
+        var t = JSON.stringify(response[0]);
+        res.json(t);
       });
   } catch (error) {
     return res.json("Error: " + error);
