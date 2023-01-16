@@ -1,0 +1,8 @@
+###
+GET http://localhost:3000/api/get_data?result=6&start=0
+Accept: application/json, text/plain, */*
+###
+POST http://localhost:3000/api/send
+Content-Type: application/json
+
+{"temperature":"55","ph_leveling":"42","tds":"151.25","value2":"49.54","value3":"1005.14"}

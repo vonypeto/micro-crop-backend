@@ -74,10 +74,10 @@ sensorsSchema.method("toJSON", function () {
 const dataCollection = mongoose.model("data_collection", aquaponicSchema);
 const dataSensors = mongoose.model("data_sensors", sensorsSchema);
 
-app.post("/send", async (req, res) => {
+app.post("/api/send", async (req, res) => {
   const sensorDataId = new mongoose.Types.ObjectId();
   const dataCollectionDataId = new mongoose.Types.ObjectId();
-
+  console.log(req.body);
   try {
     const prevData = await dataCollection.find();
     if (prevData.length) {
@@ -122,16 +122,22 @@ app.post("/send", async (req, res) => {
   }
 });
 
-app.get("/get_data", async (_, res) => {
+app.get("/api/get_data", async (req, res) => {
+  console.log(req.query);
   try {
     await dataCollection
       .find()
       .populate({
         path: "data_sensors",
         model: "data_sensors",
+        options: {
+          limit: req.query?.result,
+          sort: { createdAt: -1 },
+          skip: req.query?.start,
+        },
       })
       .then((response) => {
-        console.log(response);
+        //  console.log(response);
         var t = JSON.stringify(response[0]);
 
         res.json(t);
