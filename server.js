@@ -92,7 +92,7 @@ app.post("/api/send", async (req, res) => {
       const dataCollectionData = await dataCollection.findOneAndUpdate(
         { _id: prevData[0]._id },
         {
-          $set: { battery_percentage: "100%" },
+          $set: { battery_percentage: "100%", led_status: req.body.led_status },
           $push: { data_sensors: sensorDataId },
         },
         { new: true }
