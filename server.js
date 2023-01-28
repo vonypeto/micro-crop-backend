@@ -62,6 +62,7 @@ const sensorsSchema = mongoose.Schema(
     _id: { type: mongoose.Schema.Types.ObjectId },
     tds: { type: String },
     ph_leveling: { type: String },
+    battery_percentage: { type: String },
     temperature: { type: String },
   },
   { timestamps: true }
@@ -86,13 +87,17 @@ app.post("/api/send", async (req, res) => {
         tds: req.body?.tds,
         ph_leveling: req.body?.ph_leveling,
         temperature: req.body?.temperature,
+        battery_percentage: req.body?.battery_percentage,
       });
       await sensorData.save();
 
       const dataCollectionData = await dataCollection.findOneAndUpdate(
         { _id: prevData[0]._id },
         {
-          $set: { battery_percentage: "100%", led_status: req.body.led_status },
+          $set: {
+            battery_percentage: req.body.battery_percentage,
+            led_status: req.body.led_status,
+          },
           $push: { data_sensors: sensorDataId },
         },
         { new: true }
@@ -106,13 +111,13 @@ app.post("/api/send", async (req, res) => {
         tds: req.body?.tds,
         ph_leveling: req.body?.ph_leveling,
         temperature: req.body?.temperature,
+        battery_percentage: req.body?.battery_percentage,
       });
       await sensorData.save();
 
       const dataCollectionData = new dataCollection({
         _id: dataCollectionDataId,
         data_sensors: [sensorDataId],
-        battery_percentage: "88%",
       });
       await dataCollectionData.save();
       return res.json("Data Saved");
