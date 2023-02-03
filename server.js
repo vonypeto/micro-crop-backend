@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+// Dear Developer I am too lazy to  organize the file so I put all schema and routes on a single file :D
 // Declare Middleware
 
 //Application
