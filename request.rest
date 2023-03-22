@@ -11,7 +11,12 @@ Content-Type: application/json
 {"temperature":"55","led_status":"true","ph_leveling":"42","tds":"151.25","battery_percentage":"4.42"}
 
 ###
-POST https://aquaponic.onrender.com/api/send
+POST https://aquaponic-t3r0.onrender.com/api/send
 Content-Type: application/json
 
 {"temperature":"28","led_status":"false","ph_leveling":"25","tds":"22.25","battery_percentage":"3.99"}
+
+
+###
+https://mitivelane-test.online/api/comment/63fac4e567bba1b518259fed/63f5600f25f745935c4d53e3
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX2lkIjoiZUY2T0FNc2QxWVpvQ3hwVzRmd3BCRTZSRTVQMiIsImF1dGhfb3JnYW5pemF0aW9uIjoibnVsbCIsImlhdCI6MTY3Nzc0ODI2NiwiZXhwIjoxNjc3ODQ4MjY2fQ.U7f5fVVyzFdKmu2zz59rLJzNvrgSmsAQK49H0qag5ok

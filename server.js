@@ -17,7 +17,7 @@ app.use(express.json());
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://vonypet:hetC55yOwwjI7ySR@cluster0.ljfkg0l.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://vonypet:hetC55yOwwjI7ySR@cluster0.ljfkg0l.mongodb.net/crop?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -33,15 +33,12 @@ mongoose
 
 // Welcome page API
 app.get("/", (_, res) => {
-  res.json({ message: "Welcome to Aquaponic application anjo and friends." });
+  res.json({ message: "Welcome to Micro Crop application." });
 });
 
 const aquaponicSchema = mongoose.Schema(
   {
     _id: { type: mongoose.Schema.Types.ObjectId },
-
-    battery_percentage: { type: String },
-    led_status: { type: Boolean },
     data_sensors: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -60,9 +57,8 @@ aquaponicSchema.method("toJSON", function () {
 const sensorsSchema = mongoose.Schema(
   {
     _id: { type: mongoose.Schema.Types.ObjectId },
-    tds: { type: String },
-    ph_leveling: { type: String },
-    battery_percentage: { type: String },
+    soil_moisture: { type: String },
+    humidity: { type: String },
     temperature: { type: String },
   },
   { timestamps: true }
@@ -84,20 +80,15 @@ app.post("/api/send", async (req, res) => {
     if (prevData.length) {
       const sensorData = new dataSensors({
         _id: sensorDataId,
-        tds: req.body?.tds,
-        ph_leveling: req.body?.ph_leveling,
+        soil_moisture: req.body?.soil_moisture,
+        humidity: req.body?.humidity,
         temperature: req.body?.temperature,
-        battery_percentage: req.body?.battery_percentage,
       });
       await sensorData.save();
 
       const dataCollectionData = await dataCollection.findOneAndUpdate(
         { _id: prevData[0]._id },
         {
-          $set: {
-            battery_percentage: req.body.battery_percentage,
-            led_status: req.body.led_status,
-          },
           $push: { data_sensors: sensorDataId },
         },
         { new: true }
@@ -108,10 +99,9 @@ app.post("/api/send", async (req, res) => {
     } else {
       const sensorData = new dataSensors({
         _id: sensorDataId,
-        tds: req.body?.tds,
-        ph_leveling: req.body?.ph_leveling,
+        soil_moisture: req.body?.soil_moisture,
+        humidity: req.body?.humidity,
         temperature: req.body?.temperature,
-        battery_percentage: req.body?.battery_percentage,
       });
       await sensorData.save();
 
